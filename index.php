@@ -11,9 +11,7 @@
     <h1>Sick em!</h1>
     <div class="file-list">
         <?php
-        include_once('config.php');
-
-        $fileData = file_get_contents($filePath);
+        $fileData = file_get_contents('fileData/index.txt'); // Replace index with the corrisponding text file you want to use to store info
         $fileItems = explode("\n", $fileData);
 
         foreach ($fileItems as $index => $item) {
@@ -22,10 +20,10 @@
             }
 
             $itemData = explode('|', $item);
-            $itemName = $itemData[0] ?? '';
-            $itemURL = $itemData[1] ?? '';
-            $dropdownContent = $itemData[2] ?? '';
-            $dropdownLink = $itemData[3] ?? '';
+            $itemName = isset($itemData[0]) ? $itemData[0] : '';
+            $itemURL = isset($itemData[1]) ? $itemData[1] : '';
+            $dropdownContent = isset($itemData[2]) ? $itemData[2] : '';
+            $dropdownLink = isset($itemData[3]) ? $itemData[3] : '';
 
             echo '<div class="file-list-item">';
             echo '<a href="' . $itemURL . '" target="_blank">' . $itemName . '</a>';
@@ -64,7 +62,7 @@
                 var xhr = new XMLHttpRequest();
                 xhr.open("POST", "delete_file.php", true);
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xhr.onreadystatechange = function () {
+                xhr.onreadystatechange = function() {
                     if (xhr.readyState == 4 && xhr.status == 200) {
                         window.location.reload();
                     }
